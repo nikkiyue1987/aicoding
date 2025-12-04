@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英语文章跟读</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .page {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* 设置页面样式 */
+        .setup-page {
+            padding: 30px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .section {
+            margin-bottom: 25px;
+            border: 2px solid #e0e6ff;
+            border-radius: 10px;
+            padding: 20px;
+            background: #f8f9ff;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            font-size: 1.3em;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .section-title .icon {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .section-desc {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        textarea, input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        textarea:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        .params-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .param-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .param-label {
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        select, input[type="range"] {
+            padding: 8px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        select:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="range"] {
+            flex: 1;
+        }
+
+        .range-value {
+            background: #667eea;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .start-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 20px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 跟读页面样式 */
+        .reading-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .reading-header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .reading-title {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .reading-subtitle {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .mode-switch {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mode-switch:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .stats-bar {
+            background: #f8f9ff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #e0e6ff;
+        }
+
+        .stat-item {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .left-panel {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .image-area {
+            background: #f0f2ff;
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            font-size: 1.1em;
+            overflow: hidden;
+        }
+
+        .image-area img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .text-area {
+            flex: 1;
+            background: white;
+            border: 2px solid #e0e6ff;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-y: auto;
+            line-height: 1.8;
+            font-size: var(--font-size, 18px);
+        }
+
+        .right-panel {
+            flex: 1;
+            background: white;
+            border: 2px solid #e0e6ff;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .vocab-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .vocab-item {
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .vocab-item.high-freq {
+            background: #ffe6e6;
+            border-color: #ff4757;
+        }
+
+        .vocab-item.mid-freq {
+            background: #f3e5ff;
+            border-color: #a55eea;
+        }
+
+        .vocab-item.low-freq {
+            background: #fff0e6;
+            border-color: #ff9f43;
+        }
+
+        .vocab-word {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .vocab-details {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .highlight {
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .highlight.high-freq {
+            background: #ff4757;
+            color: white;
+        }
+
+        .highlight.mid-freq {
+            background: #a55eea;
+            color: white;
+        }
+
+        .highlight.low-freq {
+            background: #ff9f43;
+            color: white;
+        }
+
+        .current-word {
+            text-decoration: underline;
+            text-decoration-color: red;
+            text-decoration-thickness: 3px;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .control-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .control-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #667eea;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .back-btn:hover {
+            background: white;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .params-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-bar {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 设置页面 -->
+        <div class="page active" id="setupPage">
+            <div class="setup-page">
+                <h1 class="title">英语文章跟读</h1>
+                
+                <div class="section">
+                    <div class="section-title">
+                        <span class="icon">📝</span>
+                        输入短文内容
+                    </div>
+                    <div class="section-desc">请输入或粘贴英语课文</div>
+                    <textarea id="englishText" placeholder="请在此输入英语短文..."></textarea>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">
+                        <span class="icon">🔤</span>
+                        输入短文释义
+                    </div>
+                    <div class="section-desc">请输入或粘贴英语课文的中文释义</div>
+                    <textarea id="chineseText" placeholder="请在此输入中文释义..."></textarea>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">
+                        <span class="icon">📚</span>
+                        输入单词详情
+                    </div>
+                    <div class="section-desc">格式：单词 [音标] 词性 中文释义（多个释义用逗号分开）</div>
+                    <textarea id="vocabDetails" placeholder="例如：hello [həˈləʊ] int. 你好，喂"></textarea>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">
+                        <span class="icon">🖼️</span>
+                        上传场景插图
+                    </div>
+                    <div class="section-desc">上传与短文内容相关的图片</div>
+                    <input type="file" id="imageUpload" accept="image/*">
+                </div>
+
+                <div class="section">
+                    <div class="section-title">
+                        <span class="icon">⚙️</span>
+                        设置跟读参数
+                    </div>
+                    <div class="params-grid">
+                        <div class="param-item">
+                            <label class="param-label">字号大小</label>
+                            <select id="fontSize">
+                                <option value="16">16px</option>
+                                <option value="18" selected>18px</option>
+                                <option value="20">20px</option>
+                                <option value="24">24px</option>
+                                <option value="28">28px</option>
+                                <option value="32">32px</option>
+                                <option value="36">36px</option>
+                            </select>
+                        </div>
+                        <div class="param-item">
+                            <label class="param-label">语速</label>
+                            <select id="speechRate">
+                                <option value="0.5">0.5x 慢速</option>
+                                <option value="0.75">0.75x 较慢</option>
+                                <option value="1" selected>1x 正常</option>
+                                <option value="1.25">1.25x 较快</option>
+                                <option value="1.5">1.5x 快速</option>
+                            </select>
+                        </div>
+                        <div class="param-item">
+                            <label class="param-label">音色</label>
+                            <select id="voiceSelect">
+                                <option value="default">默认音色</option>
+                            </select>
+                        </div>
+                        <div class="param-item">
+                            <label class="param-label">停顿时长</label>
+                            <div class="range-container">
+                                <input type="range" id="pauseDuration" min="0.5" max="5" step="0.5" value="2">
+                                <span class="range-value" id="pauseValue">2s</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="start-btn" onclick="startReading()">开始跟读</button>
+            </div>
+        </div>
+
+        <!-- 跟读页面 -->
+        <div class="page" id="readingPage">
+            <div class="reading-page">
+                <button class="back-btn" onclick="goBack()">← 返回设置</button>
+                
+                <div class="reading-header">
+                    <div>
+                        <div class="reading-title">英语文章 | 重点词汇积累</div>
+                        <div class="reading-subtitle" id="articleTitle">英语短文跟读练习</div>
+                    </div>
+                    <button class="mode-switch" onclick="toggleMode()" id="modeBtn">切换到中文模式</button>
+                </div>
+
+                <div class="stats-bar">
+                    <div class="stat-item">单词数：<span id="wordCount">0</span>个</div>
+                    <div class="stat-item">
+                        名词：<span id="nounCount">0</span> 
+                        动词：<span id="verbCount">0</span> 
+                        形容词：<span id="adjCount">0</span>
+                    </div>
+                </div>
+
+                <div class="main-content">
+                    <div class="left-panel">
+                        <div class="image-area" id="imageArea">
+                            <span>📷 场景插图区域</span>
+                        </div>
+                        <div class="text-area" id="textArea">
+                            <div id="englishContent"></div>
+                            <div id="chineseContent" style="display: none;"></div>
+                        </div>
+                    </div>
+
+                    <div class="right-panel">
+                        <div class="vocab-title">重点词汇</div>
+                        <div id="vocabList"></div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="control-btn" onclick="playReading()" id="playBtn">▶️ 播放</button>
+                    <button class="control-btn" onclick="pauseReading()" id="pauseBtn" disabled>⏸️ 暂停</button>
+                    <button class="control-btn" onclick="stopReading()" id="stopBtn" disabled>⏹️ 停止</button>
+                    <button class="control-btn" onclick="repeatSentence()" id="repeatBtn">🔄 重复当前句</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSentences = [];
+        let currentSentenceIndex = 0;
+        let currentWordIndex = 0;
+        let isPlaying = false;
+        let speechSynthesis = window.speechSynthesis;
+        let currentUtterance = null;
+        let isEnglishMode = true;
+        let vocabData = [];
+        let settings = {
+            fontSize: 18,
+            speechRate: 1,
+            voice: null,
+            pauseDuration: 2
+        };
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadVoices();
+            setupEventListeners();
+            setDefaultContent();
+        });
+
+        function setDefaultContent() {
+            document.getElementById('englishText').value = `The sun was setting behind the mountains, painting the sky in brilliant shades of orange and pink. Sarah stood at the edge of the cliff, watching the beautiful scene unfold before her eyes. She had been hiking for hours, but this moment made every step worth it. The cool mountain air filled her lungs as she took a deep breath and smiled.`;
+            
+            document.getElementById('chineseText').value = `太阳正在山后落下，把天空染成了绚烂的橙色和粉红色。莎拉站在悬崖边，看着眼前展开的美丽景象。她已经徒步了几个小时，但这一刻让每一步都值得。凉爽的山风充满了她的肺部，她深深地吸了一口气，微笑了。`;
+            
+            document.getElementById('vocabDetails').value = `sun [sʌn] n. 太阳，阳光
+setting [ˈsetɪŋ] v. 落下，设置
+mountains [ˈmaʊntɪnz] n. 山脉，山峰
+brilliant [ˈbrɪljənt] adj. 绚烂的，杰出的
+shades [ʃeɪdz] n. 色调，阴影
+cliff [klɪf] n. 悬崖，峭壁
+hiking [ˈhaɪkɪŋ] v. 徒步旅行，远足
+breath [breθ] n. 呼吸，气息`;
+        }
+
+        function setupEventListeners() {
+            document.getElementById('pauseDuration').addEventListener('input', function() {
+                document.getElementById('pauseValue').textContent = this.value + 's';
+            });
+
+            document.getElementById('imageUpload').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        document.getElementById('imageArea').innerHTML = '';
+                        document.getElementById('imageArea').appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function loadVoices() {
+            const voices = speechSynthesis.getVoices();
+            const voiceSelect = document.getElementById('voiceSelect');
+            
+            voiceSelect.innerHTML = '<option value="default">默认音色</option>';
+            
+            voices.forEach((voice, index) => {
+                if (voice.lang.startsWith('en')) {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = `${voice.name} (${voice.lang})`;
+                    voiceSelect.appendChild(option);
+                }
+            });
+        }
+
+        // 如果语音还没加载完成，监听事件
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        function startReading() {
+            const englishText = document.getElementById('englishText').value.trim();
+            const chineseText = document.getElementById('chineseText').value.trim();
+            const vocabText = document.getElementById('vocabDetails').value.trim();
+
+            if (!englishText) {
+                alert('请输入英语短文内容！');
+                return;
+            }
+
+            // 保存设置
+            settings.fontSize = document.getElementById('fontSize').value;
+            settings.speechRate = parseFloat(document.getElementById('speechRate').value);
+            settings.pauseDuration = parseFloat(document.getElementById('pauseDuration').value);
+            
+            const voiceIndex = document.getElementById('voiceSelect').value;
+            if (voiceIndex !== 'default') {
+                settings.voice = speechSynthesis.getVoices()[voiceIndex];
+            }
+
+            // 处理文本
+            currentSentences = englishText.split(/[.!?]+/).filter(s => s.trim().length > 0);
+            const chineseSentences = chineseText.split(/[。！？]+/).filter(s => s.trim().length > 0);
+            
+            // 处理词汇
+            processVocabulary(vocabText);
+            
+            // 切换到跟读页面
+            document.getElementById('setupPage').classList.remove('active');
+            document.getElementById('readingPage').classList.add('active');
+            
+            // 初始化跟读页面
+            initReadingPage(englishText, chineseText, chineseSentences);
+        }
+
+        function processVocabulary(vocabText) {
+            vocabData = [];
+            if (!vocabText) return;
+
+            const lines = vocabText.split('\n').filter(line => line.trim());
+            lines.forEach(line => {
+                const match = line.match(/^(\w+)\s*\[([^\]]+)\]\s*(\w+\.?)\s*(.+)$/);
+                if (match) {
+                    const [, word, phonetic, pos, meaning] = match;
+                    let frequency = 'low-freq';
+                    
+                    // 简单的词频判断（可以根据实际需求调整）
+                    const commonWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by'];
+                    const midFreqWords = ['sun', 'mountain', 'beautiful', 'moment', 'breath'];
+                    
+                    if (commonWords.includes(word.toLowerCase())) {
+                        frequency = 'high-freq';
+                    } else if (midFreqWords.includes(word.toLowerCase())) {
+                        frequency = 'mid-freq';
+                    }
+
+                    vocabData.push({
+                        word,
+                        phonetic,
+                        pos,
+                        meaning,
+                        frequency
+                    });
+                }
+            });
+        }
+
+        function initReadingPage(englishText, chineseText, chineseSentences) {
+            // 设置字体大小
+            document.documentElement.style.setProperty('--font-size', settings.fontSize + 'px');
+            
+            // 显示内容
+            const englishContent = document.getElementById('englishContent');
+            const chineseContent = document.getElementById('chineseContent');
+            
+            englishContent.innerHTML = highlightWords(englishText);
+            chineseContent.innerHTML = chineseText;
+            
+            // 显示词汇统计
+            updateWordStats(englishText);
+            
+            // 显示词汇列表
+            displayVocabulary();
+            
+            // 重置状态
+            currentSentenceIndex = 0;
+            currentWordIndex = 0;
+            isPlaying = false;
+        }
+
+        function highlightWords(text) {
+            let highlightedText = text;
+            
+            vocabData.forEach(vocab => {
+                const regex = new RegExp(`\\b${vocab.word}\\b`, 'gi');
+                highlightedText = highlightedText.replace(regex, 
+                    `<span class="highlight ${vocab.frequency}" data-word="${vocab.word}">$&</span>`);
+            });
+            
+            return highlightedText;
+        }
+
+        function updateWordStats(text) {
+            const words = text.match(/\b\w+\b/g) || [];
+            document.getElementById('wordCount').textContent = words.length;
+            
+            let nounCount = 0, verbCount = 0, adjCount = 0;
+            
+            vocabData.forEach(vocab => {
+                if (vocab.pos.includes('n')) nounCount++;
+                else if (vocab.pos.includes('v')) verbCount++;
+                else if (vocab.pos.includes('adj')) adjCount++;
+            });
+            
+            document.getElementById('nounCount').textContent = nounCount;
+            document.getElementById('verbCount').textContent = verbCount;
+            document.getElementById('adjCount').textContent = adjCount;
+        }
+
+        function displayVocabulary() {
+            const vocabList = document.getElementById('vocabList');
+            vocabList.innerHTML = '';
+            
+            vocabData.forEach(vocab => {
+                const vocabItem = document.createElement('div');
+                vocabItem.className = `vocab-item ${vocab.frequency}`;
+                vocabItem.innerHTML = `
+                    <div class="vocab-word">${vocab.word}</div>
+                    <div class="vocab-details">[${vocab.phonetic}] ${vocab.pos} ${vocab.meaning}</div>
+                `;
+                vocabList.appendChild(vocabItem);
+            });
+        }
+
+        function playReading() {
+            if (currentSentenceIndex >= currentSentences.length) {
+                currentSentenceIndex = 0;
+            }
+            
+            isPlaying = true;
+            updateControlButtons();
+            
+            speakSentence(currentSentenceIndex);
+        }
+
+        function speakSentence(index) {
+            if (index >= currentSentences.length || !isPlaying) {
+                stopReading();
+                return;
+            }
+            
+            const sentence = currentSentences[index].trim();
+            currentUtterance = new SpeechSynthesisUtterance(sentence);
+            
+            currentUtterance.rate = settings.speechRate;
+            if (settings.voice) {
+                currentUtterance.voice = settings.voice;
+            }
+            
+            // 高亮当前句子
+            highlightCurrentSentence(index);
+            
+            currentUtterance.onend = function() {
+                if (isPlaying) {
+                    setTimeout(() => {
+                        currentSentenceIndex++;
+                        speakSentence(currentSentenceIndex);
+                    }, settings.pauseDuration * 1000);
+                }
+            };
+            
+            currentUtterance.onerror = function() {
+                console.error('语音合成出错');
+                stopReading();
+            };
+            
+            speechSynthesis.speak(currentUtterance);
+        }
+
+        function highlightCurrentSentence(index) {
+            const textArea = document.getElementById(isEnglishMode ? 'englishContent' : 'chineseContent');
+            const sentences = isEnglishMode ? currentSentences : 
+                document.getElementById('chineseText').value.split(/[。！？]+/).filter(s => s.trim().length > 0);
+            
+            if (sentences[index]) {
+                // 移除之前的高亮
+                textArea.querySelectorAll('.current-word').forEach(el => {
+                    el.classList.remove('current-word');
+                });
+                
+                // 简单的句子高亮（实际实现可能需要更复杂的逻辑）
+                const sentenceText = sentences[index].trim();
+                const textContent = textArea.textContent || textArea.innerText;
+                const sentenceStart = textContent.indexOf(sentenceText);
+                
+                if (sentenceStart !== -1) {
+                    // 这里简化处理，实际应该更精确地定位和高亮
+                    console.log(`正在朗读第${index + 1}句: ${sentenceText}`);
+                }
+            }
+        }
+
+        function pauseReading() {
+            isPlaying = false;
+            speechSynthesis.pause();
+            updateControlButtons();
+        }
+
+        function stopReading() {
+            isPlaying = false;
+            speechSynthesis.cancel();
+            currentSentenceIndex = 0;
+            currentWordIndex = 0;
+            updateControlButtons();
+            
+            // 移除高亮
+            document.querySelectorAll('.current-word').forEach(el => {
+                el.classList.remove('current-word');
+            });
+        }
+
+        function repeatSentence() {
+            if (currentSentenceIndex < currentSentences.length) {
+                stopReading();
+                setTimeout(() => {
+                    isPlaying = true;
+                    updateControlButtons();
+                    speakSentence(currentSentenceIndex);
+                }, 100);
+            }
+        }
+
+        function updateControlButtons() {
+            document.getElementById('playBtn').disabled = isPlaying;
+            document.getElementById('pauseBtn').disabled = !isPlaying;
+            document.getElementById('stopBtn').disabled = !isPlaying;
+        }
+
+        function toggleMode() {
+            isEnglishMode = !isEnglishMode;
+            const englishContent = document.getElementById('englishContent');
+            const chineseContent = document.getElementById('chineseContent');
+            const modeBtn = document.getElementById('modeBtn');
+            
+            if (isEnglishMode) {
+                englishContent.style.display = 'block';
+                chineseContent.style.display = 'none';
+                modeBtn.textContent = '切换到中文模式';
+            } else {
+                englishContent.style.display = 'none';
+                chineseContent.style.display = 'block';
+                modeBtn.textContent = '切换到英文模式';
+            }
+        }
+
+        function goBack() {
+            stopReading();
+            document.getElementById('readingPage').classList.remove('active');
+            document.getElementById('setupPage').classList.add('active');
+        }
+    </script>
+</body>
+</html>

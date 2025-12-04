@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英语文章跟读 - 学习页面</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        .title-font {
+            font-family: 'Noto Serif SC', serif;
+        }
+        .english-font {
+            font-family: 'Inter', sans-serif;
+        }
+        .card-shadow {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .word-high-frequency {
+            color: #dc2626;
+            background-color: rgba(220, 38, 38, 0.1);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        .word-medium-frequency {
+            color: #7c3aed;
+            background-color: rgba(124, 58, 237, 0.1);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        .word-low-frequency {
+            color: #ea580c;
+            background-color: rgba(234, 88, 12, 0.1);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        .reading-progress {
+            position: relative;
+            border-bottom: 3px solid #ef4444;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        .control-btn {
+            transition: all 0.3s ease;
+        }
+        .control-btn:hover {
+            transform: scale(1.1);
+        }
+        .control-btn.active {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+        }
+        .vocabulary-card {
+            transition: all 0.3s ease;
+        }
+        .vocabulary-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        .image-container {
+            max-height: 300px;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .sentence-block {
+            transition: all 0.3s ease;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        .sentence-block.active {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #3b82f6;
+        }
+        .sentence-block.chinese-mode {
+            background-color: rgba(34, 197, 94, 0.1);
+            border-left: 4px solid #22c55e;
+        }
+        .progress-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: conic-gradient(#3b82f6 0deg, #e5e7eb 0deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .progress-circle::before {
+            content: '';
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: white;
+            position: absolute;
+        }
+        .progress-text {
+            position: relative;
+            z-index: 1;
+            font-size: 12px;
+            font-weight: bold;
+            color: #3b82f6;
+        }
+        .animate-slide-in {
+            animation: slideIn 0.6s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-6 max-w-7xl">
+        <!-- 顶部标题区 -->
+        <div class="bg-white rounded-2xl p-6 card-shadow mb-6 animate-slide-in">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="title-font text-3xl font-bold text-gray-800 mb-2">
+                        <span id="lessonTitle">英语文章</span>
+                        <span class="text-blue-600">| 重点词汇积累</span>
+                    </h1>
+                    <p id="lessonSubtitle" class="text-gray-600">短文主题：日常对话</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="toggleLanguage" class="control-btn bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg font-medium">
+                        <i class="fas fa-language mr-2"></i>
+                        中英切换
+                    </button>
+                    <button id="backToSettings" class="control-btn bg-blue-100 hover:bg-blue-200 text-blue-600 px-4 py-2 rounded-lg font-medium">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        返回设置
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- 左侧：词汇统计和插图 -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- 词汇统计区 -->
+                <div class="bg-white rounded-2xl p-6 card-shadow animate-slide-in">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-chart-bar text-blue-600 mr-2"></i>
+                        词汇统计
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">单词总数</span>
+                            <span id="totalWords" class="font-bold text-blue-600">0个</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">名词</span>
+                            <span id="nounCount" class="font-bold text-red-600">0个</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">动词</span>
+                            <span id="verbCount" class="font-bold text-green-600">0个</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">形容词</span>
+                            <span id="adjCount" class="font-bold text-purple-600">0个</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 插图区 -->
+                <div class="bg-white rounded-2xl p-6 card-shadow animate-slide-in">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-image text-green-600 mr-2"></i>
+                        场景插图
+                    </h3>
+                    <div id="lessonImage" class="image-container bg-gray-100 flex items-center justify-center text-gray-400">
+                        <i class="fas fa-image text-6xl"></i>
+                    </div>
+                </div>
+
+                <!-- 学习进度 -->
+                <div class="bg-white rounded-2xl p-6 card-shadow animate-slide-in">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-tasks-progress text-orange-600 mr-2"></i>
+                        学习进度
+                    </h3>
+                    <div class="flex items-center justify-center mb-4">
+                        <div class="progress-circle" id="progressCircle">
+                            <span class="progress-text" id="progressText">0%</span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm text-gray-600">第 <span id="currentSentence">1</span> 句 / 共 <span id="totalSentences">1</span> 句</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 中间：短文正文区 -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-2xl p-6 card-shadow animate-slide-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-semibold text-gray-800 flex items-center">
+                            <i class="fas fa-book-open text-purple-600 mr-2"></i>
+                            短文正文
+                        </h3>
+                        <div class="flex items-center space-x-2 text-sm text-gray-500">
+                            <i class="fas fa-info-circle"></i>
+                            <span>点击句子开始朗读</span>
+                        </div>
+                    </div>
+                    
+                    <div id="textContent" class="space-y-4">
+                        <!-- 动态生成的句子内容 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：单词讲解区 -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl p-6 card-shadow animate-slide-in">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-spell-check text-red-600 mr-2"></i>
+                        单词讲解
+                    </h3>
+                    <div id="vocabularyList" class="space-y-3 max-h-96 overflow-y-auto">
+                        <!-- 动态生成的词汇列表 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部控制区 -->
+        <div class="bg-white rounded-2xl p-6 card-shadow mt-6 animate-slide-in">
+            <div class="flex justify-center items-center space-x-6">
+                <button id="prevSentence" class="control-btn bg-gray-100 hover:bg-gray-200 p-3 rounded-full">
+                    <i class="fas fa-step-backward text-gray-600"></i>
+                </button>
+                <button id="playPause" class="control-btn bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-full text-xl">
+                    <i class="fas fa-play" id="playIcon"></i>
+                </button>
+                <button id="nextSentence" class="control-btn bg-gray-100 hover:bg-gray-200 p-3 rounded-full">
+                    <i class="fas fa-step-forward text-gray-600"></i>
+                </button>
+                <div class="flex items-center space-x-4 ml-8">
+                    <span class="text-sm text-gray-600">自动播放</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="autoPlay" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 词汇详情弹窗 -->
+    <div id="wordDetailModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-6 max-w-md mx-4 card-shadow">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="modalWord" class="text-2xl font-bold text-gray-800 english-font"></h3>
+                <button id="closeModal" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="space-y-3">
+                <div>
+                    <span class="text-sm text-gray-500">音标：</span>
+                    <span id="modalPhonetic" class="english-font text-blue-600"></span>
+                </div>
+                <div>
+                    <span class="text-sm text-gray-500">词性：</span>
+                    <span id="modalType" class="text-green-600"></span>
+                </div>
+                <div>
+                    <span class="text-sm text-gray-500">释义：</span>
+                    <span id="modalMeaning" class="text-gray-800"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="reading.js"></script>
+</body>
+</html>
