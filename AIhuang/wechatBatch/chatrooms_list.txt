@@ -1,0 +1,9 @@
+2025-12-12 22:09:56,144 - INFO - 获取到 115 个群聊
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "<string>", line 1, in <listcomp>
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f412' in position 0: illegal multibyte sequence
+Total: 115
+0 : 日本设计小站-全国站
+1 : 二狗子的西文书法群Ⅰ
+2 : 

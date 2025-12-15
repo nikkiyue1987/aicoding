@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>48478008143@chatroom - 群聊总结</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+        
+        /* Header Section */
+        .header {
+            background: linear-gradient(135deg, #6a4c9c 0%, #8e62ac 100%);
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            margin-top: -30px; /* Overlap header */
+        }
+        
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-number {
+            display: block;
+            font-size: 36px;
+            font-weight: 700;
+            color: #4a90e2;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Section Titles */
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #333;
+        }
+        
+        .section-title.hot {
+            color: #333;
+        }
+        
+        /* Featured Topic Card */
+        .featured-card {
+            background: linear-gradient(135deg, #7251a3 0%, #8a65b8 100%);
+            border-radius: 12px;
+            padding: 30px;
+            color: white;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 20px rgba(106, 76, 156, 0.2);
+        }
+        
+        .featured-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .featured-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .featured-content ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+        
+        .featured-content li {
+            margin-bottom: 12px;
+            position: relative;
+            font-size: 15px;
+            opacity: 0.95;
+        }
+        
+        .featured-content li::before {
+            content: "•";
+            position: absolute;
+            left: -20px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Discussion List */
+        .discussion-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .discussion-card {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            border-left: 4px solid #4a90e2;
+            position: relative;
+        }
+        
+        .discussion-header {
+            margin-bottom: 15px;
+        }
+        
+        .discussion-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4a90e2;
+            margin-bottom: 6px;
+        }
+        
+        .discussion-meta {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .discussion-content ul {
+            list-style: disc;
+            padding-left: 20px;
+            color: #555;
+        }
+        
+        .discussion-content li {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            color: #999;
+            font-size: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>48478008143@chatroom</h1>
+        <p>2025-12-13 群聊总结</p>
+    </div>
+
+    <div class="container">
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">41</span>
+                <span class="stat-label">总消息数</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">12</span>
+                <span class="stat-label">活跃成员</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">08:46-13:28</span>
+                <span class="stat-label">活跃时段</span>
+            </div>
+        </div>
+
+        <!-- Hot Topic (First Topic) -->
+        
+            <div class="section-title hot">
+                <span>📌</span> 今日热点话题
+            </div>
+            <div class="featured-card">
+                <div class="featured-header">
+                    <span style="font-size: 24px;">🔥</span>
+                    <div class="featured-title">现在还有豆包、deepseek</div>
+                </div>
+                <div class="featured-content">
+                    <ul>
+                        <li>现在还有豆包、deepseek，kimi</li>
+<li>"大圣"邀请"Darlene"加入了群聊</li>
+<li>"Darlene"与群里其他人都不是朋友关系，请注意隐私安全</li>
+<li>@所有人 最近谷歌封号严重，有很多小伙伴申诉是成功，大家可以耐心申诉一下
+
+
+另外我在写几个付费的谷歌大模型使用姿势了，...</li>
+                    </ul>
+                </div>
+                <div style="margin-top: 20px; font-size: 13px; opacity: 0.8;">
+                    话题热度: 22条消息 · 6人参与
+                </div>
+            </div>
+            
+
+        <!-- Technical Discussions (Rest Topics) -->
+        
+            <div class="section-title">
+                <span>💡</span> 讨论精华
+            </div>
+            <div class="discussion-list">
+                
+                <div class="discussion-card">
+                    <div class="discussion-header">
+                        <div class="discussion-title">1. 做IP的终局是你成为了你想成为的那个人</div>
+                        <div class="discussion-meta">13:28 · 4人参与 · 12条消息</div>
+                    </div>
+                    <div class="discussion-content">
+                        <ul>
+                            <li>做IP的终局是你成为了你想成为的那个人，分享给各位</li>
+<li>拍着拍着，我真的喜欢上拍照了</li>
+<li>你的朋友圈简直就是大圣进化之路+柠檬成长日记</li>
+<li>认真生活是终极目标，过好每一天</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="discussion-card">
+                    <div class="discussion-header">
+                        <div class="discussion-title">2. "雾画"与群里其他人都不是朋友关系</div>
+                        <div class="discussion-meta">10:26 · 2人参与 · 3条消息</div>
+                    </div>
+                    <div class="discussion-content">
+                        <ul>
+                            <li>"大圣"邀请"雾画"加入了群聊</li>
+<li>"雾画"与群里其他人都不是朋友关系，请注意隐私安全</li>
+<li>大家发现没有，现在 coze 把其他厂商的大模型绝大部分都取消了，主要自己的了</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="discussion-card">
+                    <div class="discussion-header">
+                        <div class="discussion-title">3. 我在咸鱼买的Gemini账号也被封了</div>
+                        <div class="discussion-meta">08:46 · 2人参与 · 3条消息</div>
+                    </div>
+                    <div class="discussion-content">
+                        <ul>
+                            <li>我在咸鱼买的Gemini账号也被封了，请问被封的小伙伴，通过申诉都成功拿回来了吗？</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="discussion-card">
+                    <div class="discussion-header">
+                        <div class="discussion-title">4. 我拍了拍 "大圣"</div>
+                        <div class="discussion-meta">09:38 · 1人参与 · 1条消息</div>
+                    </div>
+                    <div class="discussion-content">
+                        <ul>
+                            <li>暂无详细摘要</li>
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+            
+
+        <div class="footer">
+            <p>生成时间: 13:46:55 · Powered by Batch Chatlog Analyzer</p>
+        </div>
+    </div>
+
+</body>
+</html>

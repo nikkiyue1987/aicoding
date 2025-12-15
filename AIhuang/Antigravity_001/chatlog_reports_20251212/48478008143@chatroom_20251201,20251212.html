@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>48478008143@chatroom - 聊天分析报告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            color: #667eea;
+            margin-bottom: 16px;
+        }
+        
+        .meta {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .meta-item strong {
+            color: #333;
+        }
+        
+        .topics {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        }
+        
+        .topic-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+        
+        .topic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+        
+        .topic-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            flex: 1;
+        }
+        
+        .topic-time {
+            font-size: 12px;
+            color: #999;
+            white-space: nowrap;
+            margin-left: 12px;
+        }
+        
+        .topic-summary {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        
+        .topic-stats {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: #888;
+        }
+        
+        .keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .keyword {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 32px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .topics {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .meta {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>48478008143@chatroom</h1>
+            <div class="meta">
+                <div class="meta-item">
+                    <span>📅</span>
+                    <span><strong>日期:</strong> 2025-12-01,2025-12-12</span>
+                </div>
+                <div class="meta-item">
+                    <span>💬</span>
+                    <span><strong>消息数:</strong> 1531</span>
+                </div>
+                <div class="meta-item">
+                    <span>👥</span>
+                    <span><strong>参与者:</strong> 43</span>
+                </div>
+                <div class="meta-item">
+                    <span>🔥</span>
+                    <span><strong>热门话题:</strong> 20</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="topics">
+            
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">会铺天盖地宣传的</div>
+                    <div class="topic-time">⏰ 08:08</div>
+                </div>
+                <div class="topic-summary">哪个手机能用豆包助手？ | 飞书多维表格可以给我解决你想批量化的难点 | 1.日常工作中是否需要用excel做数据分析
+2.日常工作中是否需要根据excel报表写材料
+3.日常工作中是否需要写微... | 我在纠结一件事情，我在考虑给各位减少输入，比如周日的分享这周暂停等。
+
+总觉得这个群的信息密度有点大了
+
+我担心大家又会...</div>
+                <div class="topic-stats">
+                    <span>💬 282 条消息</span>
+                    <span>👥 20 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">撤回了一条消</span><span class="keyword">日常工作中是</span><span class="keyword">破涕为笑</span><span class="keyword">否需要做一些</span><span class="keyword">周星宇</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">别被你老婆知道，这么喜欢她</div>
+                    <div class="topic-time">⏰ 08:08</div>
+                </div>
+                <div class="topic-summary">别被你老婆知道，这么喜欢她 | 他在x上分享  有很多的工作机会找他  包括他做产品 他的产品也是付费的  确实就是长期主义  钱属于他在做的这件事的附... | 这段话触及了关于人才筛选和自我驱动的本质。
+
+守：理解“自我PUA”在职场中的价值
+你的核心观点是：大厂青睐高学历人才（... | 分享两个app使用感受
+1.豆包输入法
+AI联想很好用，比如我昨天给学生发吉他弦的标准音，我就打了一个6-E ，剩下的都...</div>
+                <div class="topic-stats">
+                    <span>💬 86 条消息</span>
+                    <span>👥 12 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">PUA</span><span class="keyword">自我反思</span><span class="keyword">自己抽自己</span><span class="keyword">我目前的阶段</span><span class="keyword">自我迭代</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">AI能力，来自老板的认可</div>
+                    <div class="topic-time">⏰ 16:49</div>
+                </div>
+                <div class="topic-summary">AI能力，来自老板的认可 | 培训班利润高些，按人收 | 对了，我的 AI智能体课程被一家公司的团队团购了
+
+因为他们团队负责人是我学员，600 人团队，预期会买 200-300... | 我今天在整理我的合集（公众号、视频号、小红书）
+
+我对几个概念重新做了理解，分享给大家：
+
+超级个体 = AI（懂技术）...</div>
+                <div class="topic-stats">
+                    <span>💬 102 条消息</span>
+                    <span>👥 17 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">撤回了一条消</span><span class="keyword">我来开白名单</span><span class="keyword">破涕为笑</span><span class="keyword">我要我要</span><span class="keyword">呲牙</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">我拿Gemini生成了以月为周期的每日时间安排计划</div>
+                    <div class="topic-time">⏰ 15:36</div>
+                </div>
+                <div class="topic-summary">想请教下各位，我拿Gemini生成了以月为周期的每日时间安排计划。
+有什么app能快速把文字或者表格内容导入，生成类似日... | 我现在的状态就是我知道我输出能力需要练，我晚上规定时间研究一些白天收集的小点子测试验证，然后整理笔记，输出朋友圈，每天都... | 按照任务走，都会知道的</div>
+                <div class="topic-stats">
+                    <span>💬 74 条消息</span>
+                    <span>👥 10 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">破涕为笑</span><span class="keyword">分析的很准确</span><span class="keyword">撤回了一条消</span><span class="keyword">少走弯路</span><span class="keyword">coze</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">为什么这个笔记会爆</div>
+                    <div class="topic-time">⏰ 13:52</div>
+                </div>
+                <div class="topic-summary">请问，单看这张图，为什么这个笔记会爆？ | 我的视角：这篇帖子给我们内容创作者那些启发
+
+大家说的都没问题，我来说我的答案：
+
+1，要把知识变成了目标用户的痛点，用... | 还有取悦你的用户这个点，也分享给大家
+
+我想明白这个点了之后，我想到了之前我刷到的短视频的很多结构，一下子明朗了
+
+我举... | 做自媒体真的对各方各面都有帮助</div>
+                <div class="topic-stats">
+                    <span>💬 61 条消息</span>
+                    <span>👥 11 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">我拍了拍</span><span class="keyword">天童的红茶馆</span><span class="keyword">大圣</span><span class="keyword">钮钴禄</span><span class="keyword">月酱</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">没有感觉到不正常</div>
+                    <div class="topic-time">⏰ 22:49</div>
+                </div>
+                <div class="topic-summary">今天大家的Gemini都正常吗 | 我今天上午在用，突然不行了，然后就再也不行了。切换节点都不行，可能是我在酒店，杭州会展中心这边。太着急了就问了这个问题 | 有没有一个工具，可以用幻灯片播放 PDF，但是不全屏的？ | 大圣老师6000字长文课：30分钟跑通一周不会的Google AI Studio
+作为一个每天挤下班时间学AI的普通打工...</div>
+                <div class="topic-stats">
+                    <span>💬 27 条消息</span>
+                    <span>👥 6 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">Studio</span><span class="keyword">Gemini</span><span class="keyword">Google</span><span class="keyword">破涕为笑</span><span class="keyword">PPT</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">打开你常用的软件</div>
+                    <div class="topic-time">⏰ 08:32</div>
+                </div>
+                <div class="topic-summary">@所有人 同志们，今天黑五，打开你常用的软件，看下是否需要续费，如果续费，今天可能是最好的时机 | 有条件的再加一个 Claude 就行。 个人觉得 Claude 在项目组织上的能力更好，体系化的内容回复更强 | 没有所谓的够与不够，看你怎么看这件事情
+
+你要不要定期感受其他的模型，比如 claude，比如 chatgpt | 这个怎么复制的？飞书没权限不会复制，我还搜了一些插件也搞不来</div>
+                <div class="topic-stats">
+                    <span>💬 58 条消息</span>
+                    <span>👥 12 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">Gemini</span><span class="keyword">Monica</span><span class="keyword">破涕为笑</span><span class="keyword">Claude</span><span class="keyword">爱心</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">请教大家有在华为手机安装Gemini的么</div>
+                    <div class="topic-time">⏰ 17:17</div>
+                </div>
+                <div class="topic-summary">请教大家有在华为手机安装Gemini的么，是怎么个安装流程呢，试了很多网上的办法，都不太行。 | 哈哈哈，我也在考虑下个手机要不要换其他品牌，话说这个higo是购买刷机服务才能安装是吧，我搜搜有没有安装包，我试了go安... | @大圣 老师，你的notebooklm的pro版本，是你gemini用的付费的，你没有用gemini的学生免费账号是吧 | 还是不行，出现上面第一张的提示</div>
+                <div class="topic-stats">
+                    <span>💬 46 条消息</span>
+                    <span>👥 13 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">被宇宙之爱包</span><span class="keyword">gemini</span><span class="keyword">GOUDAN</span><span class="keyword">WANG</span><span class="keyword">哈哈哈</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">对于一部分在一开始就加入</div>
+                    <div class="topic-time">⏰ 11:47</div>
+                </div>
+                <div class="topic-summary">同志们，提一嘴，对于一部分在一开始就加入，并且一直跟着进度走的小伙伴
+
+可能接下来会进入倦怠期，这时候你会产生自我怀疑，... | 嗯嗯，我创业的时候老板一直跟我说的，当时对我印象特别大
+
+解决方案并不是说要完美解决当前问题
+
+比如认可这个问题的存在，... | 我给大圣老师一个反馈：
+我11月5日正式介入我们这个项目的。今天正好一个月！！这一个月我最大的突破是：基本完全调动起了我... | LM又变了吗？没有ppt的功能了？</div>
+                <div class="topic-stats">
+                    <span>💬 28 条消息</span>
+                    <span>👥 9 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">所有问题都是</span><span class="keyword">有解决方案的</span><span class="keyword">lovart</span><span class="keyword">谢谢老师</span><span class="keyword">呲牙</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">现在的剪映有点贵哦</div>
+                    <div class="topic-time">⏰ 17:28</div>
+                </div>
+                <div class="topic-summary">拍拍我就可以，不用这样哈 | 人，是自我预言的实现
+相信相信的力量 | 你又在悄摸摸的夸我。
+
+不过我跟你有同感，我当时为什么放弃企业培训。
+
+因为我发现我想做导师，我想引导，但是这里面有几个... | 后来做这个一人启动孵化器，也是在摸索，但当时给自己定的要求就是要少一些说教感，多一些共情和陪伴</div>
+                <div class="topic-stats">
+                    <span>💬 41 条消息</span>
+                    <span>👥 10 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">呲牙</span><span class="keyword">旺柴</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">前几天大圣老师给我指导了一下怎么做一场分享</div>
+                    <div class="topic-time">⏰ 23:47</div>
+                </div>
+                <div class="topic-summary">@大圣 报一个小小的喜，前几天大圣老师给我指导了一下怎么做一场分享，特别受用！今晚做我的工具产品的群发售分享，在产品还没... | 研发成本是不是都回来了？ | 再次恭喜，小闭环跑通了，剩下的就是系统的稳定性和功能丰富性
+
+有了第一批客户，就可以建立起反馈迭代的正循环 | 谢谢大圣老师指点哇，今天的分享反馈也很好，还有很多意向客户，微信都加爆了</div>
+                <div class="topic-stats">
+                    <span>💬 39 条消息</span>
+                    <span>👥 6 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">撤回了一条消</span><span class="keyword">恭喜恭喜</span><span class="keyword">大圣</span><span class="keyword">呲牙</span><span class="keyword">旺柴</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">周日的分享不会停的</div>
+                    <div class="topic-time">⏰ 13:28</div>
+                </div>
+                <div class="topic-summary">感谢感谢，放心，周日的分享不会停的，除非我枯竭了
+
+我担心的是输入的问题，既然你们都没啥问题，咱么就继续保持节奏 | 信息量不大，我是自己看的太多了现在就这个一个置顶，coze的群也取消置顶了，最近热点也不太追，大多看看标题，砍掉与自己无... | @前浪（张程鹏） 我的经验 | 现在终于开始进入能想到一些表达内容的环节了，放空算是一种改变的契机，让我明白了一些事
+
+给自己塞得太多就会消化不良，聚焦...</div>
+                <div class="topic-stats">
+                    <span>💬 23 条消息</span>
+                    <span>👥 9 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">偷笑</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">这是哪个 6000 字的教程</div>
+                    <div class="topic-time">⏰ 09:51</div>
+                </div>
+                <div class="topic-summary">这是哪个 6000 字的教程，搜一搜流量多，代表这是一个比较大流量的搜索词 | 我之前不怎么发小红书，并且发了也没有什么动静。最近用AI重新学数学，我就把做出的HTML录制了下来，单纯录制没有讲解，发... | 你先把你的内容稳定下来再说 | 我的理解是：金山是我们人真正追求的终极的东西，就像是底层能力，是体现我们人独特性，碎钻是在探索自我实现（挖金山）过程中的...</div>
+                <div class="topic-stats">
+                    <span>💬 33 条消息</span>
+                    <span>👥 7 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">讨论</span><span class="keyword">交流</span><span class="keyword">分享</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">刚听完昨晚的回放</div>
+                    <div class="topic-time">⏰ 08:09</div>
+                </div>
+                <div class="topic-summary">刚听完昨晚的回放，太有价值了，感谢大拿的无私分享，有个问题想请教下：
+
+提到的集成提示词生成器html是用哪个平台做的呢... | 好的，这种程序直接嵌套进去，可以直接本地化使用的效果，需要在生成的时候提前界定么？
+
+我之前用Gemini对话框直接生成... | 明白😉快速看完文章，有帮助</div>
+                <div class="topic-stats">
+                    <span>💬 28 条消息</span>
+                    <span>👥 5 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">html</span><span class="keyword">抱拳</span><span class="keyword">api</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">我还觉得自己的封面好看</div>
+                    <div class="topic-time">⏰ 19:43</div>
+                </div>
+                <div class="topic-summary">算了，我就用这种，我还觉得自己的封面好看 | 字体、字号、主色、辅色等等这些视觉标识，以后再任何的封面配图都统一视觉化 | 小红没办法上传封面，我直接上传了。结果最近那个平台点赞和收藏有还挺多，还有一个人问我要源文件 | 我今晚刚好录制了一个B站视频，今晚给大家分享下流程</div>
+                <div class="topic-stats">
+                    <span>💬 49 条消息</span>
+                    <span>👥 8 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">撤回了一条消</span><span class="keyword">哈哈哈哈</span><span class="keyword">大圣</span><span class="keyword">坏笑</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">我拍了拍 "程大拿" 瘪了的钱包</div>
+                    <div class="topic-time">⏰ 10:44</div>
+                </div>
+                <div class="topic-summary">我拍了拍 "程大拿" 瘪了的钱包 | 我说下我的感受，我对第三种无感，没有贬低，就是无感。
+
+我宁愿自己读一遍自己的逐字稿，也不愿意去发这种视频 | 嗯嗯，我也喜欢，但是我也要想办法尝试下，这种风格是否有流量。
+
+目前张咋啦已经验证，有流量，但是我读的是逐字稿，她读的是... | 直接让gemini给你生成个白板</div>
+                <div class="topic-stats">
+                    <span>💬 35 条消息</span>
+                    <span>👥 8 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">撤回了一条消</span><span class="keyword">大圣</span><span class="keyword">瘪了的钱包</span><span class="keyword">拍了拍</span><span class="keyword">程大拿</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">"丹" 拍了拍 "雪琳" 被宇宙之爱包围啦🤩</div>
+                    <div class="topic-time">⏰ 21:05</div>
+                </div>
+                <div class="topic-summary">"丹" 拍了拍 "雪琳" 被宇宙之爱包围啦🤩 | @四木  @YR🦫 你们俩这个正常，我也会遇到，尤其是做课程的时候 | @蒋安宁（佳冉）  @YR🦫  @四木 
+
+还有一个解法，去视频号公开直播，面向你的朋友圈做一场公开分享 | 今天这一天有点累了，我去写个总结
+
+7 个小时的打磨课程介绍，1 个半小时的 1V1，卖了一个一人公司，中午帮学员解决了...</div>
+                <div class="topic-stats">
+                    <span>💬 27 条消息</span>
+                    <span>👥 8 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">被宇宙之爱包</span><span class="keyword">拍了拍</span><span class="keyword">大圣</span><span class="keyword">雪琳</span><span class="keyword">蒋安宁</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">还没看到那个地方</div>
+                    <div class="topic-time">⏰ 19:12</div>
+                </div>
+                <div class="topic-summary">哪里有排版的教程呀？我急需呀。 | "大圣" 拍了拍 "月酱" | 我实际只是想把大聪明那个排版器生成的小标题加个好看的背景，看了pro也不便宜，放弃了放弃了 | @大圣 有没有一种可能，我们可以使用 Google AI Studio 的 build 模式，自己搞个适合自己审美的排版...</div>
+                <div class="topic-stats">
+                    <span>💬 31 条消息</span>
+                    <span>👥 8 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">大圣</span><span class="keyword">拍了拍</span><span class="keyword">捂脸</span><span class="keyword">哈哈哈</span><span class="keyword">吃瓜</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">"大圣(wxid_90rmt0pckow822)"邀请"拾玖(wxid_cn4w...</div>
+                    <div class="topic-time">⏰ 09:06</div>
+                </div>
+                <div class="topic-summary">"大圣(wxid_90rmt0pckow822)"邀请"拾玖(wxid_cn4wxiz5llvf21)"加入了群聊 | 好嘞，感觉还是要多写一些找找感觉，之前主要陷在了要不要都自己写，或者说看了ai给的参考，但我不能跟他一模一样的怪圈里 | 我这几天纠结的就是ai给的太多和我自己脑子里没货的拉扯 | 原来说的100万 现在预计是多少了</div>
+                <div class="topic-stats">
+                    <span>💬 25 条消息</span>
+                    <span>👥 7 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">Gemini</span><span class="keyword">wxid</span><span class="keyword">大圣</span><span class="keyword">拾玖</span><span class="keyword">偷笑</span>
+                </div>
+            </div>
+            <div class="topic-card">
+                <div class="topic-header">
+                    <div class="topic-title">哈哈哈~不用不用</div>
+                    <div class="topic-time">⏰ 22:33</div>
+                </div>
+                <div class="topic-summary">哈哈哈~不用不用。大圣老师教了那么多，总有回馈一下的，这样才是正向反馈呀。 | 等有一天我做出来优质的 AI 视频，各位老师出去培训的时候，可以放我做的，互帮互助 | @前浪（张程鹏） 回答你刚才的问题 我也是第一场  后面具体形式我还不太知道  目前大概是两个科室一次分享  后天去见这... | 刚才是想说如果相同的话可能会有风险，不过问完你想了想好像也没事，这个拿个ppt应该没多大用，我感觉可能是上面的领导要审一...</div>
+                <div class="topic-stats">
+                    <span>💬 24 条消息</span>
+                    <span>👥 9 人参与</span>
+                </div>
+                <div class="keywords">
+                    <span class="keyword">感谢大拿老师</span><span class="keyword">捂脸</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>生成时间: 2025-12-12 23:59:57</p>
+            <p>Powered by Batch Chatlog Analyzer v1.0.0</p>
+        </div>
+    </div>
+</body>
+</html>
