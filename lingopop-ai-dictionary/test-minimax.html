@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniMax API 测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            min-height: 100px;
+            font-family: monospace;
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .error {
+            border-left-color: #f44336;
+            background: #ffebee;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🧪 MiniMax API 测试工具</h1>
+
+        <div class="input-group">
+            <label for="apiKey">API Key (JWT Token):</label>
+            <textarea id="apiKey" placeholder="粘贴您的 MiniMax API Key..."></textarea>
+        </div>
+
+        <div class="input-group">
+            <label for="prompt">测试提示词:</label>
+            <input type="text" id="prompt" value="你好，请介绍一下你自己" placeholder="输入测试提示词...">
+        </div>
+
+        <button onclick="testAPI()" id="testBtn">🚀 测试 API</button>
+        <button onclick="clearResult()">🗑️ 清空结果</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // 从 JWT Token 提取 GroupID
+        function getGroupId(apiKey) {
+            try {
+                const parts = apiKey.split('.');
+                if (parts.length !== 3) return '';
+                const payload = JSON.parse(atob(parts[1]));
+                return payload.GroupID || '';
+            } catch (e) {
+                console.error('Failed to parse JWT:', e);
+                return '';
+            }
+        }
+
+        async function testAPI() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const prompt = document.getElementById('prompt').value.trim();
+            const resultDiv = document.getElementById('result');
+            const testBtn = document.getElementById('testBtn');
+
+            if (!apiKey) {
+                showResult('请输入 API Key', true);
+                return;
+            }
+
+            if (!prompt) {
+                showResult('请输入测试提示词', true);
+                return;
+            }
+
+            const groupId = getGroupId(apiKey);
+            if (!groupId) {
+                showResult('无法从 API Key 中提取 GroupID，请检查 Token 格式', true);
+                return;
+            }
+
+            testBtn.disabled = true;
+            showResult('正在调用 API...', false, true);
+
+            try {
+                console.log('GroupID:', groupId);
+                console.log('API Key (first 20 chars):', apiKey.substring(0, 20) + '...');
+
+                const url = `https://api.minimaxi.com/v1/text/chatcompletion_v2?GroupId=${groupId}`;
+
+                const requestBody = {
+                    model: 'MiniMax-M2',
+                    messages: [
+                        { role: 'user', content: prompt }
+                    ],
+                    tokens_to_generate: 512,
+                };
+
+                console.log('Request URL:', url);
+                console.log('Request Body:', JSON.stringify(requestBody, null, 2));
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody),
+                });
+
+                console.log('Response Status:', response.status);
+                console.log('Response Headers:', [...response.headers.entries()]);
+
+                const data = await response.json();
+                console.log('Response Data:', data);
+
+                if (!response.ok) {
+                    showResult(`API 调用失败 (${response.status}):\n${JSON.stringify(data, null, 2)}`, true);
+                    return;
+                }
+
+                if (data.choices && data.choices.length > 0) {
+                    const message = data.choices[0].messages?.[0]?.text || data.choices[0].message?.content || '无响应内容';
+                    showResult(`✅ 成功！\n\n回复内容：\n${message}\n\n完整响应：\n${JSON.stringify(data, null, 2)}`, false);
+                } else {
+                    showResult(`⚠️ API 返回成功但 choices 为空:\n${JSON.stringify(data, null, 2)}`, true);
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                showResult(`❌ 错误: ${error.message}\n\n${error.stack}`, true);
+            } finally {
+                testBtn.disabled = false;
+            }
+        }
+
+        function showResult(message, isError = false, isLoading = false) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = 'result' + (isError ? ' error' : '') + (isLoading ? ' loading' : '');
+            resultDiv.innerHTML = `<pre>${message}</pre>`;
+        }
+
+        function clearResult() {
+            document.getElementById('result').innerHTML = '';
+        }
+
+        // 页面加载时尝试从 localStorage 读取 API Key
+        window.onload = function () {
+            const savedKey = localStorage.getItem('minimax_test_key');
+            if (savedKey) {
+                document.getElementById('apiKey').value = savedKey;
+            }
+        };
+
+        // 保存 API Key 到 localStorage
+        document.getElementById('apiKey').addEventListener('blur', function () {
+            const key = this.value.trim();
+            if (key) {
+                localStorage.setItem('minimax_test_key', key);
+            }
+        });
+    </script>
+</body>
+
+</html>
